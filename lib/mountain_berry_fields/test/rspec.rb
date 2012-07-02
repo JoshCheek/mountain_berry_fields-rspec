@@ -7,10 +7,10 @@ class MountainBerryFields
 
     class RSpec
       Deject self
-      dependency(:file_class)           { File          }
-      dependency(:dir_class)            { Dir           }
-      dependency(:open3_class)          { Open3         }
-      dependency(:syntax_checker_class) { SyntaxChecker }
+      dependency(:file_class)           { File              }
+      dependency(:dir_class)            { Dir               }
+      dependency(:open3_class)          { Open3             }
+      dependency(:syntax_checker_class) { RubySyntaxChecker }
 
       def syntax_checker
         @syntax_checker ||= syntax_checker_class.new code_to_test
