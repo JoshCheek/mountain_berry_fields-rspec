@@ -1,11 +1,6 @@
-require 'simplecov'
-
-require 'mountain_berry_fields'
-require 'mountain_berry_fields/command_line_interaction'
-
-require 'stringio'
 require 'surrogate/rspec'
-
+require 'mountain_berry_fields'
+require 'mountain_berry_fields/test/rspec'
 
 RSpec::Matchers.define :pass do
   match { |matcher| matcher.pass? }
@@ -19,14 +14,6 @@ module Mock
     define(:invalid_message) { "shit ain't valid" }
   end
 
-  class File
-    Surrogate.endow self do
-      define(:exist?) { true }
-      define(:write)  { true }
-      define(:read)   { "file contents" }
-    end
-  end
-
   class Dir
     Surrogate.endow self do
       define(:chdir)    { |dir,    &block| block.call }
@@ -34,10 +21,11 @@ module Mock
     end
   end
 
-  module Process
-    class Status
-      Surrogate.endow self
-      define(:success?) { true }
+  class File
+    Surrogate.endow self do
+      define(:exist?) { true }
+      define(:write)  { true }
+      define(:read)   { "file contents" }
     end
   end
 
@@ -58,47 +46,12 @@ module Mock
     end
   end
 
-  class Interaction
-    Surrogate.endow self
-    define(:declare_failure) { }
-  end
-
-  class Evaluator
-    Surrogate.endow self do
-      define(:visible_commands)   { [:visible] }
-      define(:invisible_commands) { [:invisible] }
-    end
-
-    define(:initialize)      { @document = '' }
-    define(:tests_pass?)     { true }
-    define(:test)            { |test, &block| block.call }
-    define(:failure_message) { 'some failure message' }
-    define(:failure_name)    { 'failing test name' }
-    define(:document)
-
-    def inspect
-      '#<MOCK EVALUATOR>'
-    end
-  end
-
-  class Parser
-    Surrogate.endow self
-    define(:initialize) {}
-    define(:parse) { 'some body' }
-    define(:parsed) { parse }
-
-    def inspect
-      '#<MOCK PARSER>'
+  module Process
+    class Status
+      Surrogate.endow self
+      define(:success?) { true }
     end
   end
 end
 
-MountainBerryFields.override(:file_class)      { Mock::File.clone }
-MountainBerryFields.override(:dir_class)       { Mock::Dir.clone }
-MountainBerryFields.override(:interaction)     { Mock::Interaction.new }
-MountainBerryFields.override(:evaluator_class) { Mock::Evaluator.clone }
-MountainBerryFields.override(:parser_class)    { Mock::Parser.clone }
-
-MountainBerryFields::CommandLineInteraction.override(:stderr) { StringIO.new }
 MountainBerryFields::Test::RSpec.override(:syntax_checker_class) { Mock::SyntaxChecker }
-MountainBerryFields::Test::MagicComments.override(:syntax_checker_class) { Mock::SyntaxChecker }
