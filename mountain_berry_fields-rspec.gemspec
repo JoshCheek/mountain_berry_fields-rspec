@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["josh.cheek@gmail.com"]
   gem.description   = %q{When testing embedded code examples with MountainBerryFields, you may wish to use RSpec. This enables that integration}
   gem.summary       = %q{MountainBerryFields strategy for RSpec}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/JoshCheek/mountain_berry_fields-rspec"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
