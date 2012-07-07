@@ -1,4 +1,4 @@
-![travis CI status](https://secure.travis-ci.org/JoshCheek/mountain_berry_fields-rspec.png?branch=master)
+[![Build Status](https://secure.travis-ci.org/JoshCheek/mountain_berry_fields-rspec.png?branch=master)](http://travis-ci.org/JoshCheek/mountain_berry_fields-rspec)
 
 # RSpec strategy for Mountain Berry Fields
 
