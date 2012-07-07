@@ -1,3 +1,5 @@
+![travis CI status](https://secure.travis-ci.org/JoshCheek/mountain_berry_fields-rspec.png?branch=master)
+
 # RSpec strategy for Mountain Berry Fields
 
 As this is an official plugin, it is documented as part of the main [MountainBerryFields](https://github.com/JoshCheek/mountain_berry_fields) code.
