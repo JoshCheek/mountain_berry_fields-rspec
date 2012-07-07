@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "mountain_berry_fields-rspec"
   gem.require_paths = ["lib"]
-  gem.version       = '1.0.1'
+  gem.version       = '1.0.2'
 
   gem.add_runtime_dependency 'deject',                '~> 0.2.2'
   gem.add_runtime_dependency 'rspec',                 '~> 2.2'
