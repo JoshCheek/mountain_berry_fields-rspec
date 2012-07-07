@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.version       = '1.0.1'
 
   gem.add_runtime_dependency 'deject',                '~> 0.2.2'
-  gem.add_runtime_dependency 'rspec',                 '~> 2.10.0' # this might be overly strict, maybe do research and see how far back we can go
+  gem.add_runtime_dependency 'rspec',                 '~> 2.2'
   gem.add_runtime_dependency 'mountain_berry_fields', '~> 1.0.2'
 
   gem.add_development_dependency 'surrogate',         '~> 0.5.1'
