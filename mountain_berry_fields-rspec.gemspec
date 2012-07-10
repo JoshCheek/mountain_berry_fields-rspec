@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rspec',                 '~> 2.2'
   gem.add_runtime_dependency 'mountain_berry_fields', '~> 1.0.2'
 
-  gem.add_development_dependency 'surrogate',         '~> 0.5.1'
+  gem.add_development_dependency 'surrogate',         '~> 0.5.3'
   gem.add_development_dependency 'cucumber',          '~> 1.2.0'
   gem.add_development_dependency 'rake'
 end
