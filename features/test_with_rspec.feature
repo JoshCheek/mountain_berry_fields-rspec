@@ -73,16 +73,9 @@ Feature: Testing with :rspec
     ya see?
     """
     When I run "mountain_berry_fields Readme.mountain_berry_fields.md"
-    Then it exits with a status of 1, and a stderr of:
+    Then it exits with a status of 1, and a stderr including:
     """
     FAILURE: My RSpec example
-    -:2: syntax error, unexpected '}', expecting keyword_end
-          it('is invalid syntax') { }}}}
-                                      ^
-
-    original file:
-        describe 'an example' do
-          it('is invalid syntax') { }}}}
-        end
+    -:2: syntax error
     """
     And I do not see the file "Readme.md"
