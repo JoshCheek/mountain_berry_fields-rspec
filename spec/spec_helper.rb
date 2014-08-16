@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require 'surrogate/rspec'
 require 'mountain_berry_fields'
 require 'mountain_berry_fields/test/rspec'
