@@ -4,12 +4,11 @@ require 'tmpdir'
 
 class MountainBerryFields
   class Test
-
     class RSpec
       Deject self
-      dependency(:file_class)           { File              }
-      dependency(:dir_class)            { Dir               }
-      dependency(:open3_class)          { Open3             }
+      dependency(:file_class)           { ::File            }
+      dependency(:dir_class)            { ::Dir             }
+      dependency(:open3_class)          { ::Open3           }
       dependency(:syntax_checker_class) { RubySyntaxChecker }
 
       def syntax_checker
@@ -22,6 +21,8 @@ class MountainBerryFields
 
       def pass?
         @passed ||= syntax_checker.valid? && begin
+          # do I really need to do this? Seems improbable,
+          # probably i can Run RSpec against it w/o doing all this nonsense
           dir_class.mktmpdir 'mountain_berry_fields_rspec' do |dir|
             @tempdir_name = dir
             file_class.write "#{dir}/spec.rb", @code_to_test
@@ -73,5 +74,3 @@ class MountainBerryFields
     end
   end
 end
-
-

@@ -8,7 +8,7 @@ Feature: Testing with :rspec
 
         <% test 'My RSpec example', with: :rspec do %>
         describe 'an example' do
-          it('passes') { true.should be_true }
+          it('passes') { expect(true).to be_truthy }
         end
         <% end %>
 
@@ -24,7 +24,7 @@ Feature: Testing with :rspec
 
 
         describe 'an example' do
-          it('passes') { true.should be_true }
+          it('passes') { expect(true).to be_truthy }
         end
 
     ya see?
@@ -38,8 +38,8 @@ Feature: Testing with :rspec
 
         <% test 'My RSpec example', with: :rspec do %>
         describe 'an example' do
-          it('fails 1') { true.should be_false, 'failure message 1' }
-          it('fails 2') { true.should be_false, 'failure message 2' }
+          it('fails 1') { expect(true).to be_falsy, 'failure message 1' }
+          it('fails 2') { expect(true).to be_falsy, 'failure message 2' }
         end
         <% end %>
 
