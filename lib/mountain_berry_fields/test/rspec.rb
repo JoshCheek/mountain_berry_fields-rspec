@@ -1,14 +1,20 @@
-require 'open3'
-require 'json'
-require 'tmpdir'
+require 'rspec/core'
+class MyFormatter
+  attr_accessor :failed_examples
+
+  def initialize
+    self.failed_examples = []
+  end
+
+  def example_failed(example)
+    failed_examples << example
+  end
+end
 
 class MountainBerryFields
   class Test
     class RSpec
       Deject self
-      dependency(:file_class)           { ::File            }
-      dependency(:dir_class)            { ::Dir             }
-      dependency(:open3_class)          { ::Open3           }
       dependency(:syntax_checker_class) { RubySyntaxChecker }
 
       def syntax_checker
@@ -19,21 +25,24 @@ class MountainBerryFields
 
       include Strategy
 
+      def example_group
+        code = code_to_test()
+        Class.new(::RSpec::Core::ExampleGroup) { binding.eval code, '/spec.rb' }
+      end
+
       def pass?
         @passed ||= syntax_checker.valid? && begin
-          # do I really need to do this? Seems improbable,
-          # probably i can Run RSpec against it w/o doing all this nonsense
-          dir_class.mktmpdir 'mountain_berry_fields_rspec' do |dir|
-            @tempdir_name = dir
-            file_class.write "#{dir}/spec.rb", @code_to_test
-            @output, @error, status = open3_class.capture3 "rspec '#{dir}/spec.rb' " \
-                                                           "-r '#{formatter_filename}' " \
-                                                           "-f MountainBerryFields::Test::RSpec::Formatter " \
-                                                           "--fail-fast"
-            status.success?
-          end
+          config = ::RSpec::Core::Configuration.new
+          config.expose_dsl_globally = false
+          config.files_to_run  = []
+
+          observer = MyFormatter.new
+          reporter = ::RSpec::Core::Reporter.new(config)
+          reporter.register_listener observer, :example_failed
+          example_group.run(reporter)
+          @failed_example = observer.failed_examples.first
+          !@failed_example
         end
-        @passed
       end
 
       def syntax_error_message
@@ -53,23 +62,15 @@ class MountainBerryFields
       private
 
       def spec_failure_description
-        result['full_description']
+        @failed_example.description
       end
 
       def spec_failure_message
-        result['message']
+        @failed_example.exception.message
       end
 
       def spec_failure_backtrace
-        result['backtrace'].map { |line| line.gsub @tempdir_name, '' }
-      end
-
-      def result
-        @result ||= JSON.parse @output
-      end
-
-      def formatter_filename
-        File.expand_path "../rspec_formatter.rb", __FILE__
+        ::RSpec::Core::BacktraceFormatter.new.format_backtrace(@failed_example.exception.backtrace)
       end
     end
   end
