@@ -21,8 +21,7 @@ class MountainBerryFields
 
       def pass?
         @passed ||= syntax_checker.valid? && begin
-          # do I really need to do this? Seems improbable,
-          # probably i can Run RSpec against it w/o doing all this nonsense
+          # use this approach b/c otherwise spec code can fuck up mbf code
           dir_class.mktmpdir 'mountain_berry_fields_rspec' do |dir|
             @tempdir_name = dir
             file_class.write "#{dir}/spec.rb", @code_to_test
