@@ -5,10 +5,11 @@ class MountainBerryFields
   class Test
     class RSpec
       class Formatter < ::RSpec::Core::Formatters::BaseFormatter
+        ::RSpec::Core::Formatters.register self, :example_failed
         def example_failed(example)
-          print JSON.dump 'full_description' => example.full_description,
+          print JSON.dump 'full_description' => example.description,
                           'message'          => example.exception.message,
-                          'backtrace'        => format_backtrace(example.exception.backtrace, example)
+                          'backtrace'        => ::RSpec::Core::BacktraceFormatter.new.format_backtrace(example.exception.backtrace)
         end
       end
     end

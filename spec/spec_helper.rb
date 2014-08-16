@@ -3,6 +3,15 @@ require 'surrogate/rspec'
 require 'mountain_berry_fields'
 require 'mountain_berry_fields/test/rspec'
 
+class RSpec::Expectations::ExpectationTarget
+  alias was     to
+  alias was_not not_to
+end
+
+RSpec.configure do |config|
+  config.raise_errors_for_deprecations!
+end
+
 RSpec::Matchers.define :pass do
   match { |matcher| matcher.pass? }
 end
@@ -24,9 +33,9 @@ module Mock
 
   class File
     Surrogate.endow self do
-      define(:exist?) { true }
-      define(:write)  { true }
-      define(:read)   { "file contents" }
+      define(:exist?) { |filename|       true }
+      define(:write)  { |filename, body| true }
+      define(:read)   { |filename|       "file contents" }
     end
   end
 
