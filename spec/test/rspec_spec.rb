@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MountainBerryFields::Test::RSpec do
+RSpec.describe MountainBerryFields::Test::RSpec do
   it 'is registered it the strategy list under :rspec' do
     expect(MountainBerryFields::Test::Strategy.for :rspec).to eq described_class
   end
