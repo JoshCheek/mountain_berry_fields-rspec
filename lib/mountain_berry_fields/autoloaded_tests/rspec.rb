@@ -68,7 +68,7 @@ class MountainBerryFields
       end
 
       def formatter_filename
-        File.expand_path "../rspec_formatter.rb", __FILE__
+        File.expand_path "../rspec/formatter.rb", __FILE__
       end
     end
   end
