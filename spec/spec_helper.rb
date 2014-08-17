@@ -1,7 +1,7 @@
 require 'bundler/setup'
 require 'surrogate/rspec'
 require 'mountain_berry_fields'
-require 'mountain_berry_fields/autoloaded_tests/rspec'
+require 'mountain_berry_fields/autoloaded_strategies/rspec'
 
 class RSpec::Expectations::ExpectationTarget
   alias was     to
