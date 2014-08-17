@@ -63,6 +63,9 @@ RSpec.describe MountainBerryFields::Test::RSpec do
 
   it 'passes when rspec executes successfully' do
     open3_class = MountainBerryFields::Interface::Open3.clone.exit_with_success!
+    def dir_class.mktmpdir(*, &block) # -.-
+      block.call
+    end
     rspec = described_class.new(the_spec).with_dependencies(dir_class: dir_class, file_class: file_class, open3_class: open3_class)
     expect(rspec).to pass
 
