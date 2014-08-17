@@ -7,15 +7,15 @@ task :spec do
 end
 
 desc 'Run Cukes not marked as wip'
-task :cucumber do
+task :cuke do
   sh 'cucumber --tags ~@wip'
 end
 
-namespace :cucumber do
+namespace :cuke do
   desc 'Run cukes marked as wip'
   task :wip do
     sh 'cucumber --tags @wip'
   end
 end
 
-task default: [:spec, :cucumber]
+task default: [:spec, :cuke]
