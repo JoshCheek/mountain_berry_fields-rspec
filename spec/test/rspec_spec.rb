@@ -24,9 +24,9 @@ RSpec.describe MountainBerryFields::Test::RSpec do
     end
   EOF
 
-  let(:file_class)  { Mock::File.clone }
-  let(:dir_class)   { Mock::Dir.clone }
-  let(:open3_class) { Mock::Open3.clone }
+  let(:file_class)  { MountainBerryFields::Interface::File.clone }
+  let(:dir_class)   { MountainBerryFields::Interface::Dir.clone }
+  let(:open3_class) { MountainBerryFields::Interface::Open3.clone }
   let(:the_spec)    { passing_spec }
 
   it 'checks input syntax first' do
@@ -62,18 +62,18 @@ RSpec.describe MountainBerryFields::Test::RSpec do
   end
 
   it 'passes when rspec executes successfully' do
-    open3_class = Mock::Open3.clone.exit_with_success!
+    open3_class = MountainBerryFields::Interface::Open3.clone.exit_with_success!
     rspec = described_class.new(the_spec).with_dependencies(dir_class: dir_class, file_class: file_class, open3_class: open3_class)
     expect(rspec).to pass
 
-    open3_class = Mock::Open3.clone.exit_with_failure!
+    open3_class = MountainBerryFields::Interface::Open3.clone.exit_with_failure!
     rspec = described_class.new(the_spec).with_dependencies(dir_class: dir_class, file_class: file_class, open3_class: open3_class)
     expect(rspec).to_not pass
   end
 
   it 'pulls its failure message from the JSON output of the results, showing the description, message, and backtrace without the temp dir' do
     temp_dir = 'some_temp_dir'
-    open3_class.will_capture3 [%'{"full_description":"THE DESCRIPTION","message":"THE MESSAGE","backtrace":["#{temp_dir}/THE BACKTRACE"]}', '', Mock::Process::Status.new]
+    open3_class.will_capture3 [%'{"full_description":"THE DESCRIPTION","message":"THE MESSAGE","backtrace":["#{temp_dir}/THE BACKTRACE"]}', '', MountainBerryFields::Interface::Process::Status.new]
     rspec = described_class.new(the_spec).with_dependencies(dir_class: dir_class, file_class: file_class, open3_class: open3_class)
     rspec.pass?
     expect(dir_class).was told_to(:mktmpdir).with(anything) { |block| block.call_with temp_dir }
